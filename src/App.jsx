@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import noteService from "./services/notes"; // Sigurohu që ke një shërbim për notes
-
+import noteService from "./services/notes";
+import "./index.css";
 import Note from "./components/Note";
+import Notification from "./components/Notification";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  // Përdorim useEffect për të marrë të gjitha notat kur komponenti ngarkohet
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
       setNotes(initialNotes);
@@ -25,12 +27,16 @@ const App = () => {
         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
       })
       .catch((error) => {
-        alert(`the note '${note.content}' was already deleted from server`);
+        setErrorMessage(
+          `Note '${note.content}' was already removed from server`
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
         setNotes(notes.filter((n) => n.id !== id));
       });
   };
 
-  // Korrigjimi kryesor është këtu: deklarojmë addNote me `const`
   const addNote = (event) => {
     event.preventDefault();
     const noteObject = {
@@ -38,24 +44,23 @@ const App = () => {
       important: Math.random() > 0.5,
     };
 
-    // Shtojmë notën e re dhe rifreskojmë gjendjen (state)
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
       setNewNote("");
     });
   };
 
-  // Funksioni për të menaxhuar ndryshimin e input-it për notat
   const handleNoteChange = (event) => {
     setNewNote(event.target.value);
   };
 
-  // Filtrimi i notave për të treguar ose të gjitha, ose vetëm ato të rëndësishme
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? "important" : "all"}
@@ -74,6 +79,7 @@ const App = () => {
         <input value={newNote} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
+      <Footer />
     </div>
   );
 };
