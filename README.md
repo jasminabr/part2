@@ -22,7 +22,7 @@ This is a notes application built with React. Users can create, view, and manage
 
 - **React**: For building the user interface.
 - **CSS**: For styling the application.
-- **Axios**: For making HTTP requests (assumed in `noteService`).
+- **Axios**: For making HTTP requests 
 
 ## Getting Started
 
