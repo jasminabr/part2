@@ -38,7 +38,7 @@ Make sure you have the following installed:
 1. Clone the repository:
    ```bash
    git clone https://github.com/jasminabr/part2.git
-   cd notes-app
+   cd part2
    ```
 2. Install dependencies:
 
