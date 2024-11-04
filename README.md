@@ -66,7 +66,6 @@ Make sure you have the following installed:
 
 <img width="635" alt="Screenshot 2024-11-04 at 23 07 22" src="https://github.com/user-attachments/assets/e4fa90f2-cd61-4bf5-b6a7-7d8953ee7451">
 <img width="671" alt="Screenshot 2024-11-04 at 23 07 13" src="https://github.com/user-attachments/assets/2b8ded03-1559-4160-a189-d3c5e2cfe094">
-![image](https://github.com/user-attachments/assets/9b2a1f98-c5e3-48dc-91b0-aba28d30185d)
 <img width="1440" alt="Screenshot 2024-11-04 at 23 06 22" src="https://github.com/user-attachments/assets/28ec2f38-ab13-4100-bd5c-83445fb222d3">
 
 
