@@ -10,11 +10,19 @@ const App = () => {
   const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    noteService.getAll().then((initialNotes) => {
-      setNotes(initialNotes);
-    });
+    noteService
+      .getAll()
+      .then((initialNotes) => {
+        setNotes(initialNotes);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setErrorMessage("Failed to fetch notes");
+        setLoading(false);
+      });
   }, []);
 
   const toggleImportanceOf = (id) => {
@@ -39,15 +47,26 @@ const App = () => {
 
   const addNote = (event) => {
     event.preventDefault();
+    if (newNote.trim() === "") return;
+
     const noteObject = {
       content: newNote,
       important: Math.random() > 0.5,
     };
 
-    noteService.create(noteObject).then((returnedNote) => {
-      setNotes(notes.concat(returnedNote));
-      setNewNote("");
-    });
+    noteService
+      .create(noteObject)
+      .then((returnedNote) => {
+        console.log("note created", returnedNote);
+        setNotes(notes.concat(returnedNote));
+        setNewNote("");
+      })
+      .catch((error) => {
+        setErrorMessage("Failed to create note");
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
+      });
   };
 
   const handleNoteChange = (event) => {
@@ -55,6 +74,10 @@ const App = () => {
   };
 
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
+
+  if (loading) {
+    return <div>Loading notes...</div>;
+  }
 
   return (
     <div>
